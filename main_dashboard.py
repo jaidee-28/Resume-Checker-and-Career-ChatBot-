@@ -258,7 +258,7 @@ elif tool == "💬 Career Coach Chat":
                 except Exception as e:
                    full_resp = "⚠️ जवाब लाने में दिक्कत हुई, कृपया दोबारा कोशिश करें।"
                    resp_container.markdown(full_resp)
-                    st.error(f"Debug: {e}")
+                   st.error(f"Debug: {e}")
                 for chunk in llm.stream(messages):
                     full_resp += chunk.content
                     resp_container.markdown(full_resp + "▌")
