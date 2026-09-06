@@ -54,7 +54,7 @@ def get_llm():
     return ChatOpenAI(
         openai_api_key=OPENROUTER_API_KEY,
         openai_api_base="https://openrouter.ai/api/v1",
-        model_name="deepseek/deepseek-v4-flash-0731",
+        model_name="nvidia/nemotron-3-ultra-550b-a55b:free",
         temperature=0.2,
         max_tokens=2000,
         streaming=True
