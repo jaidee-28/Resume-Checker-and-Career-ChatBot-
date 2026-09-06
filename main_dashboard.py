@@ -28,7 +28,7 @@ except Exception:
 st.sidebar.markdown("**Resume Genie**")
 OPENROUTER_API_KYE = st.secrets["OPENROUTER_API_KEY"]
 HARDCODED_OPENROUTER_KEY = OPENROUTER_API_KYE
-st.write("Key prefix:", OPENROUTER_API_KEY[:10] if OPENROUTER_API_KEY else "None")
+
 
 
 
@@ -48,6 +48,7 @@ if not OPENROUTER_API_KEY:
     st.error("❌ **OPENROUTER_API_KEY missing**. Add to `.streamlit/secrets.toml` or env vars.")
     st.stop()
 
+st.write("Key prefix:", OPENROUTER_API_KEY[:10] if OPENROUTER_API_KEY else "None")
 @st.cache_resource(show_spinner="🔄 Initializing AI Model via OpenRouter...")
 def get_llm():
     return ChatOpenAI(
