@@ -60,6 +60,37 @@ def get_llm():
     )
 
 llm = get_llm()
+import time
+
+def invoke_with_retry(chain, input_data, max_retries=2, delay=2):
+    """Chain को call करता है, fail होने पर एक बार दोबारा कोशिश करता है"""
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            return chain.invoke(input_data)
+        except Exception as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                continue
+    raise last_error
+
+
+def stream_with_retry(llm, messages, max_retries=2, delay=2):
+    """llm.stream() को call करता है, fail होने पर एक बार दोबारा कोशिश करता है"""
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            for chunk in llm.stream(messages):
+                yield chunk
+            return
+        except Exception as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                continue
+            else:
+                raise last_error
 
 # ───────────────────────────────────────────────
 # SHARED PDF LOADER
@@ -200,7 +231,7 @@ elif tool == "🔍 Resume Checker":
         with st.spinner("Evaluating..."):
             context = extract_resume_text(uploaded_file)
             chain = RESUME_CHECKER_PROMPT | llm
-            response = chain.invoke({"context": context})
+            response = invoke_with_retry(chain, {"context": context})
             st.markdown("### 📋 **Detailed Evaluation**")
             st.markdown(response.content)
 
@@ -251,7 +282,7 @@ elif tool == "💬 Career Coach Chat":
                 resp_container = st.empty()
                 full_resp = ""
                 try:
-                   for chunk in llm.stream(messages):
+                   for chunk in stream_with_retry(llm, messages):
                       full_resp += chunk.content
                       resp_container.markdown(full_resp + "▌")
                       resp_container.markdown(full_resp)
