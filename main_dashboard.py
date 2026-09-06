@@ -26,6 +26,7 @@ except Exception:
     pass
 
 st.sidebar.markdown("**Resume Genie**")
+OPENROUTER_API_KYE = st.secrets["OPENROUTER_API_KEY"]
 
 HARDCODED_OPENROUTER_KEY = "API kye"
 
