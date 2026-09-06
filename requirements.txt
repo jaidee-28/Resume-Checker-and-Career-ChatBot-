@@ -1,0 +1,5 @@
+langchain_openai
+langchain_community
+pypdf
+langchain_core
+sentence_transformers
