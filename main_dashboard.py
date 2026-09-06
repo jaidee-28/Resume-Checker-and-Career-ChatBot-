@@ -48,7 +48,6 @@ if not OPENROUTER_API_KEY:
     st.error("❌ **OPENROUTER_API_KEY missing**. Add to `.streamlit/secrets.toml` or env vars.")
     st.stop()
 
-st.write("Key prefix:", OPENROUTER_API_KEY[:10] if OPENROUTER_API_KEY else "None")
 @st.cache_resource(show_spinner="🔄 Initializing AI Model via OpenRouter...")
 def get_llm():
     return ChatOpenAI(
