@@ -28,7 +28,7 @@ except Exception:
 st.sidebar.markdown("**Resume Genie**")
 OPENROUTER_API_KYE = st.secrets["OPENROUTER_API_KEY"]
 
-HARDCODED_OPENROUTER_KEY = "API kye"
+
 
 # Safely resolve API Key without crashing if secrets.toml is missing
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
