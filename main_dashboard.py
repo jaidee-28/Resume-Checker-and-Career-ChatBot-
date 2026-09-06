@@ -250,6 +250,15 @@ elif tool == "💬 Career Coach Chat":
                 messages = [system_msg] + st.session_state.chat_history
                 resp_container = st.empty()
                 full_resp = ""
+                try:
+                   for chunk in llm.stream(messages):
+                      full_resp += chunk.content
+                      resp_container.markdown(full_resp + "▌")
+                      resp_container.markdown(full_resp)
+                except Exception as e:
+                   full_resp = "⚠️ जवाब लाने में दिक्कत हुई, कृपया दोबारा कोशिश करें।"
+                   resp_container.markdown(full_resp)
+                    st.error(f"Debug: {e}")
                 for chunk in llm.stream(messages):
                     full_resp += chunk.content
                     resp_container.markdown(full_resp + "▌")
